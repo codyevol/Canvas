@@ -15,7 +15,6 @@ class CanvasViewController: UIViewController {
     var trayOriginalCenter: CGPoint!
     var faceOriginalCenter: CGPoint!
     var newlyCreatedFaceOrigin: CGPoint!
-    
     var newlyCreatedFace: UIImageView!
 
     override func viewDidLoad() {
@@ -38,10 +37,15 @@ class CanvasViewController: UIViewController {
             newlyCreatedFace.center = imageView.center
             newlyCreatedFace.center.y += trayView.frame.origin.y
             faceOriginalCenter = newlyCreatedFace.center
+            newlyCreatedFace.userInteractionEnabled = true
             
             let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "OnCustomPan:")
             
-            view.addGestureRecognizer(panGestureRecognizer)
+            newlyCreatedFace.addGestureRecognizer(panGestureRecognizer)
+            
+            let scaleGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "OnCustomPinch:")
+            
+            newlyCreatedFace.addGestureRecognizer(scaleGestureRecognizer)
         }
         
         if sender.state == UIGestureRecognizerState.Changed {
@@ -55,21 +59,25 @@ class CanvasViewController: UIViewController {
     }
     
     func OnCustomPan(panGestureRecognizer: UIPanGestureRecognizer) {
-        let translation = panGestureRecognizer.translationInView(view)
-        
-        print(translation)
+        let face = panGestureRecognizer.view
+        let location = panGestureRecognizer.locationInView(view)
         
         if panGestureRecognizer.state == UIGestureRecognizerState.Began {
-            newlyCreatedFaceOrigin = newlyCreatedFace.center
         }
         
         if panGestureRecognizer.state == UIGestureRecognizerState.Changed {
-            newlyCreatedFace.center = CGPoint(x: newlyCreatedFaceOrigin.x + translation.x, y: newlyCreatedFaceOrigin.y + translation.y)
+            face!.center = location
         }
         
         if panGestureRecognizer.state == UIGestureRecognizerState.Ended {
             
         }
+    }
+    
+    func OnCustomPinch(scaleGestureRecognizer: UIPinchGestureRecognizer) {
+        let scale = scaleGestureRecognizer.scale
+        print(scale)
+        // do transform
     }
     
     
