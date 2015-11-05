@@ -13,6 +13,9 @@ class CanvasViewController: UIViewController {
     @IBOutlet weak var trayView: UIView!
     
     var trayOriginalCenter: CGPoint!
+    var faceOriginalCenter: CGPoint!
+    
+    var newlyCreatedFace: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,32 +23,57 @@ class CanvasViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    
+    @IBAction func facePan(sender: UIPanGestureRecognizer) {
+        
+        let translation = sender.translationInView(view)
+        
+        
+        if sender.state == UIGestureRecognizerState.Began {
+            
+            let imageView = sender.view as! UIImageView!
+            
+            newlyCreatedFace = UIImageView(image: imageView.image)
+            
+            view.addSubview(newlyCreatedFace)
+            
+            newlyCreatedFace.center = imageView.center
+            
+            newlyCreatedFace.center.y += trayView.frame.origin.y
+            
+            faceOriginalCenter = newlyCreatedFace.center
+            
+        }
+        
+        if sender.state == UIGestureRecognizerState.Changed {
+            newlyCreatedFace.center = CGPoint(x: faceOriginalCenter.x  + translation.x, y: faceOriginalCenter.y + translation.y)
+        }
+        
+        if sender.state == UIGestureRecognizerState.Ended {
+            
+        }
+        
+    }
+    
+    
     @IBAction func onTrayPanGesture(sender: UIPanGestureRecognizer) {
         
         let translation = sender.translationInView(view)
         
         let velocity = sender.velocityInView(view)
         
-        
-        
-        
         if sender.state == UIGestureRecognizerState.Began {
             trayOriginalCenter = trayView.center
         }
         
         if sender.state == UIGestureRecognizerState.Changed {
-            
-            print("trayview.center.y: \(trayView.center.y)")
-            print("trayOriginalCenter: \(trayOriginalCenter.y)")
-            
+
             trayView.center = CGPoint(x: trayOriginalCenter.x, y: trayOriginalCenter.y + translation.y)
-            
             
         }
         
         if sender.state == UIGestureRecognizerState.Ended {
             
-            print(velocity.y)
             
             if velocity.y > 0 {
               
