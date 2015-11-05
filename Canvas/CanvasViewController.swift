@@ -22,7 +22,9 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
 
         // Do any additional setup after loading the view.
         
+//        panGestureRecognizer.delegate = self;
 //        scaleGestureRecognizer.delegate = self;
+//        rotationGestureReconizer.delegate = self;
     }
     
 //    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer!, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer!) -> Bool {
@@ -90,10 +92,9 @@ class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     
-    func OnCustomRotation(rotationGestureReconizer: UIPinchGestureRecognizer) {
-//        let rotation = rotationGestureReconizer.scale
-//        print(rotation)
-//        newlyCreatedFace.transform = CGAffineTransformMakeScale(scale, scale)
+    func OnCustomRotation(rotationGestureReconizer: UIRotationGestureRecognizer) {
+        let rotation = rotationGestureReconizer.rotation
+        newlyCreatedFace.transform = CGAffineTransformMakeRotation(rotation)
     }
     
     
