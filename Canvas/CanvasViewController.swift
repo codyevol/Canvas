@@ -76,8 +76,7 @@ class CanvasViewController: UIViewController {
     
     func OnCustomPinch(scaleGestureRecognizer: UIPinchGestureRecognizer) {
         let scale = scaleGestureRecognizer.scale
-        print(scale)
-        // do transform
+        newlyCreatedFace.transform = CGAffineTransformMakeScale(scale, scale)
     }
     
     
