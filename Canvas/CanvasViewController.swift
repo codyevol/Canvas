@@ -14,6 +14,7 @@ class CanvasViewController: UIViewController {
     
     var trayOriginalCenter: CGPoint!
     var faceOriginalCenter: CGPoint!
+    var newlyCreatedFaceOrigin: CGPoint!
     
     var newlyCreatedFace: UIImageView!
 
@@ -32,17 +33,15 @@ class CanvasViewController: UIViewController {
         if sender.state == UIGestureRecognizerState.Began {
             
             let imageView = sender.view as! UIImageView!
-            
             newlyCreatedFace = UIImageView(image: imageView.image)
-            
             view.addSubview(newlyCreatedFace)
-            
             newlyCreatedFace.center = imageView.center
-            
             newlyCreatedFace.center.y += trayView.frame.origin.y
-            
             faceOriginalCenter = newlyCreatedFace.center
             
+            let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "OnCustomPan:")
+            
+            view.addGestureRecognizer(panGestureRecognizer)
         }
         
         if sender.state == UIGestureRecognizerState.Changed {
@@ -53,6 +52,24 @@ class CanvasViewController: UIViewController {
             
         }
         
+    }
+    
+    func OnCustomPan(panGestureRecognizer: UIPanGestureRecognizer) {
+        let translation = panGestureRecognizer.translationInView(view)
+        
+        print(translation)
+        
+        if panGestureRecognizer.state == UIGestureRecognizerState.Began {
+            newlyCreatedFaceOrigin = newlyCreatedFace.center
+        }
+        
+        if panGestureRecognizer.state == UIGestureRecognizerState.Changed {
+            newlyCreatedFace.center = CGPoint(x: newlyCreatedFaceOrigin.x + translation.x, y: newlyCreatedFaceOrigin.y + translation.y)
+        }
+        
+        if panGestureRecognizer.state == UIGestureRecognizerState.Ended {
+            
+        }
     }
     
     
