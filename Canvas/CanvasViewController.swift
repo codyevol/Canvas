@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CanvasViewController: UIViewController {
+class CanvasViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var trayView: UIView!
     
@@ -21,7 +21,13 @@ class CanvasViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+//        scaleGestureRecognizer.delegate = self;
     }
+    
+//    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer!, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer!) -> Bool {
+//        return true
+//    }
     
     
     @IBAction func facePan(sender: UIPanGestureRecognizer) {
@@ -46,6 +52,10 @@ class CanvasViewController: UIViewController {
             let scaleGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "OnCustomPinch:")
             
             newlyCreatedFace.addGestureRecognizer(scaleGestureRecognizer)
+            
+            let rotationGestureReconizer = UIRotationGestureRecognizer(target: self, action: "OnCustomRotation:")
+            
+            newlyCreatedFace.addGestureRecognizer(rotationGestureReconizer)
         }
         
         if sender.state == UIGestureRecognizerState.Changed {
@@ -77,6 +87,13 @@ class CanvasViewController: UIViewController {
     func OnCustomPinch(scaleGestureRecognizer: UIPinchGestureRecognizer) {
         let scale = scaleGestureRecognizer.scale
         newlyCreatedFace.transform = CGAffineTransformMakeScale(scale, scale)
+    }
+    
+    
+    func OnCustomRotation(rotationGestureReconizer: UIPinchGestureRecognizer) {
+//        let rotation = rotationGestureReconizer.scale
+//        print(rotation)
+//        newlyCreatedFace.transform = CGAffineTransformMakeScale(scale, scale)
     }
     
     
